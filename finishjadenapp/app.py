@@ -46,14 +46,14 @@ class JadenApp(App):
         )
         main_layout.add_widget(self.solution)
         
-        button = Button(
+        self.button = Button(
             text="Enter the question",
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
-        button.bind(on_press=self.on_button_press)
-        main_layout.add_widget(button)
+        self.button.bind(on_press=self.on_button_press)
+        main_layout.add_widget(self.button)
         
-        self.text = Label(text='Zhastay', font_size=16)
+        self.text = Label(text="", font_size=16)
         main_layout.add_widget(self.text)
         
         return main_layout
@@ -61,9 +61,14 @@ class JadenApp(App):
     def on_button_press(self, instance):
         current = self.solution.text
         button_text = instance.text
-        _jaden = Jaden().find_answer(current.lower())
         if button_text == "Enter the question":
-            self.text.text = "\n".join(_jaden)
+            _jaden = Jaden().find_answer(current.lower())
+            self.text.text="\n".join(_jaden)
+            self.button.text="Clear"
+        else:
+            self.button.text="Enter the question"
+            self.solution.text = ""
+            self.text.text = ""
             
             
             
