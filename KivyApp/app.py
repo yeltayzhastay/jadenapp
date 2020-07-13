@@ -40,6 +40,8 @@ class Jaden:
 class JadenApp(App):
     def build(self):
         main_layout = BoxLayout(orientation="vertical")
+        text = Label(text='Zhastay')
+        main_layout.add_widget(text)
         self.solution = TextInput(
             multiline=True, readonly=False, halign="right", font_size=55
         )

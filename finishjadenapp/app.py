@@ -40,22 +40,21 @@ class Jaden:
 class JadenApp(App):
     def build(self):
         main_layout = BoxLayout(orientation="vertical")
+        
         self.solution = TextInput(
-            multiline=True, readonly=False, halign="right", font_size=30
+            multiline=False, readonly=False, halign="right", font_size=30
         )
         main_layout.add_widget(self.solution)
+        
         button = Button(
             text="Enter the question",
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
         button.bind(on_press=self.on_button_press)
         main_layout.add_widget(button)
-        button = Button(
-            text="Clear",
-            pos_hint={"center_x": 0.5, "center_y": 0.5},
-        )
-        button.bind(on_press=self.on_button_press)
-        main_layout.add_widget(button)
+        
+        self.text = Label(text='Zhastay', font_size=16)
+        main_layout.add_widget(self.text)
         
         return main_layout
     
@@ -64,13 +63,7 @@ class JadenApp(App):
         button_text = instance.text
         _jaden = Jaden().find_answer(current.lower())
         if button_text == "Enter the question":
-            self.solution.text = "\n".join(_jaden)
-            self.solution.multiline=False
-            self.solution.readonly=True
-        else:
-            self.solution.text = ""
-            self.solution.multiline=True
-            self.solution.readonly=False
+            self.text.text = "\n".join(_jaden)
             
             
             
