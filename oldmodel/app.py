@@ -20,7 +20,6 @@ class Jaden:
     _model = None
     _vector = None
     _vocabulary = None
-    _unique_stemmed_words = None
     
     def __init__(self):
         self._model = pickle.load(open('_model.sav', 'rb'))
@@ -29,40 +28,14 @@ class Jaden:
             reader = csv.reader(f)
             _vocabulary = list(reader)
         self._vocabulary = _vocabulary
-        with open('_unique_stemmed_words.csv', newline='', encoding='utf8') as f:
-            reader = csv.reader(f)
-            _unique_stemmed_words = list(reader)
-        self._unique_stemmed_words = _unique_stemmed_words
     
     def find_answer(self, question):
-        _cos_sim = linear_kernel(self._model.transform([self.stemming(self._unique_stemmed_words, question.lower())]), self._vector).flatten()
+        _cos_sim = linear_kernel(self._model.transform([question.lower()]), self._vector).flatten()
         _cos_sim = np.ndarray.argsort(-_cos_sim)[:5]
         _result = []
         for i in _cos_sim:
             _result.append(self._vocabulary[i+1][1])
         return _result
-
-    def stemming(self, doc1, doc2):
-        alldocin = doc1
-        docin = doc2.split(' ')
-        result = []
-        for i in range(len(alldocin)):
-            for j in range(len(docin)):
-                s = self.comparison(alldocin[i][0], docin[j])
-                if(len(s) > 3):
-                    docin[j] = s
-        
-        return " ".join(str(x) for x in docin)
-    
-    def comparison(self, word1, word2):
-        length = len(word2) if len(word1) > len(word2) else len(word1)
-        result = ''
-        for i in range(length):
-            if(word1[i] == word2[i]):
-                result = result + word1[i]
-            else:
-                break
-        return result
 
 class JadenApp(App):
     def build(self):
