@@ -62,13 +62,18 @@ class JadenApp(App):
         current = self.solution.text
         button_text = instance.text
         if button_text == "Enter the question":
-            _jaden = Jaden().find_answer(current.lower())
-            self.text.text="\n".join(_jaden)
-            self.button.text="Clear"
+            if current != "":
+                _jaden = Jaden().find_answer(current.lower())
+                self.text.text="\n".join(_jaden)
+                self.button.text="Clear"
+                self.solution.readonly=True
+            else:
+                self.text.text='Enter the question to input'
         else:
             self.button.text="Enter the question"
             self.solution.text = ""
             self.text.text = ""
+            self.solution.readonly=False
             
             
             
